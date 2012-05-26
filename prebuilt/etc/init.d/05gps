@@ -1,0 +1,7 @@
+# GPS and serial interfaces
+insmod /system/lib/modules/pl2303.ko
+insmod /system/lib/modules/cp210x.ko
+insmod /system/lib/modules/ftdi_sio.ko
+insmod /system/lib/modules/cdc-acm.ko
+setprop "ro.kernel.android.gps" "ttyUSB0"
+sed -i 's/SafeExit = 0/SafeExit = 1/g' /data/data/com.navitel/settings.001.ini
