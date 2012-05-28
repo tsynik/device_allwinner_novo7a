@@ -60,6 +60,7 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
 	device/allwinner/novo7a/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
 	device/allwinner/novo7a/prebuilt/etc/gps.conf:system/etc/gps.conf \
+	device/allwinner/novo7a/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
 	device/allwinner/novo7a/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	device/allwinner/novo7a/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/allwinner/novo7a/prebuilt/bin/erase_misc.sh:system/bin/erase_misc.sh \
