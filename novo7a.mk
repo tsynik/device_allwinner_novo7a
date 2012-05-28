@@ -69,9 +69,9 @@ PRODUCT_PACKAGES += make_ext4fs e2fsck
 # Huawei RIL
 PRODUCT_PACKAGES += libhuaweigeneric-ril
 PRODUCT_PROPERTY_OVERRIDES += \
-rild.libpath=/system/lib/libhuaweigeneric-ril.so \
+#rild.libpath=/system/lib/libhuaweigeneric-ril.so \
 #rild.libargs=-d /dev/ttyUSB2 -v /dev/ttyUSB1 \
-keyguard.no_require_sim=1
+#keyguard.no_require_sim=1
 
 # USB GPS
 #PRODUCT_PACKAGES += gps.sun4i // prebuilt

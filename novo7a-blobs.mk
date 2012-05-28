@@ -60,6 +60,9 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
 	device/allwinner/novo7a/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
 	device/allwinner/novo7a/prebuilt/etc/gps.conf:system/etc/gps.conf \
+	device/allwinner/novo7a/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
+	device/allwinner/novo7a/prebuilt/etc/ppp/ip-down:system/etc/ppp/ip-down \
+	device/allwinner/novo7a/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up \
 	device/allwinner/novo7a/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
 	device/allwinner/novo7a/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
 	device/allwinner/novo7a/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
