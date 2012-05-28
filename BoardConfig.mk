@@ -67,21 +67,24 @@ SW_BOARD_GSENSOR_DIRECT_Z := true
 SW_BOARD_GSENSOR_XY_REVERT := true
 
 #Wifi stuff
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
+TARGET_CUSTOM_WIFI := ../../device/allwinner/common/wifi.c
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/r8712u.ko"
+WIFI_DRIVER_MODULE_NAME     := r8712u
+WIFI_DRIVER_FW_PATH_STA     := r8712u
+WIFI_DRIVER_FW_PATH_AP      := r8712u
+WIFI_DRIVER_SOCKET_IFACE    := wlan0
+
 #WPA_SUPPLICANT_VERSION := VER_0_8_X  //Prebuilt
-#WPA_SUPPLICANT_VERSION := VER_0_8_X
-#BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-
-SW_BOARD_USR_WIFI := nanowifi
-
-TARGET_CUSTOM_WIFI := ../../device/allwinner/novo7a/wifi.c
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/nano_ksdio.ko"
-WIFI_DRIVER_MODULE_NAME     := nano_ksdio
-WIFI_FIRMWARE_MODULE_PATH   := "/system/lib/modules/nano_if.ko"
-WIFI_FIRMWARE_MODULE_NAME   := nano_if
-WIFI_FIRMWARE_MODULE_ARG    := "nrx_config=/vendor/firmware"
-
-#WIFI_DRIVER_FW_PATH_STA     := 8192cu
-#WIFI_DRIVER_FW_PATH_AP      := 8192cu
+#SW_BOARD_USR_WIFI := nanowifi
+#TARGET_CUSTOM_WIFI := ../../device/allwinner/novo7a/wifi.c
+#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/nano_ksdio.ko"
+#WIFI_DRIVER_MODULE_NAME     := nano_ksdio
+#WIFI_FIRMWARE_MODULE_PATH   := "/system/lib/modules/nano_if.ko"
+#WIFI_FIRMWARE_MODULE_NAME   := nano_if
+#WIFI_FIRMWARE_MODULE_ARG    := "nrx_config=/vendor/firmware"
 
 BOARD_USES_UBOOT := false
 BOARD_USES_UIMAGE := true
