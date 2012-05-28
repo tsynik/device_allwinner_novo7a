@@ -69,9 +69,9 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/bin/erase_misc.sh:system/bin/erase_misc.sh \
     device/allwinner/novo7a/prebuilt/bootanimation.zip:system/media/bootanimation.zip \
 
-# Nano Wi-Fi prebuilt supplicant
+# Nano Wi-Fi compliant prebuilt supplicant
 #PRODUCT_COPY_FILES += \
-#	device/allwinner/novo7a/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
+	device/allwinner/novo7a/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
 
 # Firmwares
 PRODUCT_COPY_FILES += $(shell test -d device/allwinner/novo7a/prebuilt/vendor/firmware && \
