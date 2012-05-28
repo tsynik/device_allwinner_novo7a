@@ -26,7 +26,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.dexopt-data-only=1 \
 	ro.vold.umsdirtyratio=20 \
 	net.dns1=8.8.8.8 \
-	net.dns2=8.8.4.4 
+	net.dns2=8.8.4.4
 
 DEVICE_PACKAGE_OVERLAYS := device/allwinner/novo7a/overlay
 
@@ -58,7 +58,7 @@ PRODUCT_PACKAGES += gralloc.sun4i hwcomposer.sun4i display.sun4i
 PRODUCT_PACKAGES += lights.sun4i sensors.sun4i
 
 # ICS Camera
-PRODUCT_PACKAGES += Camera camera.sun4i
+PRODUCT_PACKAGES += camera.sun4i
 
 # CM9 apps
 PRODUCT_PACKAGES += FileManager com.android.future.usb.accessory
@@ -68,12 +68,16 @@ PRODUCT_PACKAGES += make_ext4fs e2fsck
 
 # Huawei RIL
 PRODUCT_PACKAGES += libhuaweigeneric-ril
+PRODUCT_PROPERTY_OVERRIDES += \
+rild.libpath=/system/lib/libhuaweigeneric-ril.so \
+#rild.libargs=-d /dev/ttyUSB2 -v /dev/ttyUSB1 \
+keyguard.no_require_sim=1
 
 # USB GPS
-PRODUCT_PACKAGES += gps.sun4i
+#PRODUCT_PACKAGES += gps.sun4i // prebuilt
 
 # Audio stuff
-PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa audio_policy.sun4i audio.primary.hw.sun4i
+PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa audio_policy.sun4i audio.primary.sun4i
 
 # CedarX libraries
 PRODUCT_PACKAGES += libCedarA libCedarX libcedarv libcedarxbase libcedarxosal libswdrm libcedarxsftdemux
