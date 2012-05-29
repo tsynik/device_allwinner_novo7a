@@ -13,7 +13,7 @@ loglevel 3
 # setup the global environment
     export PATH /sbin:/system/sbin:/system/bin:/system/xbin
     export LD_LIBRARY_PATH /system/lib
-    export ANDROID_BOOTLOGO 1
+    export ANDROID_BOOTLOGO 0
     export ANDROID_ROOT /system
     export ANDROID_ASSETS /system/app
     export ANDROID_CACHE /cache
@@ -91,6 +91,7 @@ loglevel 3
     chmod 0644 /dev/xt_qtaguid
 
 on post-fs
+
     # once everything is setup, no need to modify /
     mount rootfs rootfs / ro remount
 
@@ -116,6 +117,7 @@ on post-fs
     mkdir /cache/lost+found 0770 root root
 
 on post-fs-data
+
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
