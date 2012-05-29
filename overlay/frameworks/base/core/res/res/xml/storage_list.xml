@@ -39,7 +39,7 @@
     		 android:primary="true"
                  android:emulated="false"
                  android:allowMassStorage="true" 
-    		 android:removable="false" 
+                 android:removable="false" 
                  android:mtpReserve="100"
                  android:maxFileSize="0" />
 
@@ -47,7 +47,7 @@
     		 android:storageDescription="@string/storage_sd_card" 
                  android:primary="false"
                  android:emulated="false"
-    		 android:removable="true"
+                 android:removable="true"
                  android:allowMassStorage="true"
                  android:mtpReserve="100"
                  android:maxFileSize="0" />
@@ -56,7 +56,7 @@
     		 android:storageDescription="@string/storage_usb"
                  android:primary="false"
                  android:emulated="false"
-    		 android:removable="true"
+                 android:removable="true"
                  android:mtpReserve="100"
                  android:maxFileSize="0" />
 
