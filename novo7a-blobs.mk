@@ -60,6 +60,9 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
 	device/allwinner/novo7a/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
 	device/allwinner/novo7a/prebuilt/etc/gps.conf:system/etc/gps.conf \
+	device/allwinner/novo7a/prebuilt/bin/iptables:system/bin/iptables \
+	device/allwinner/novo7a/prebuilt/bin/ip6tables:system/bin/ip6tables \
+	device/allwinner/novo7a/prebuilt/bin/chat:system/bin/chat \
 	device/allwinner/novo7a/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
 	device/allwinner/novo7a/prebuilt/etc/ppp/ip-down:system/etc/ppp/ip-down \
 	device/allwinner/novo7a/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up \
