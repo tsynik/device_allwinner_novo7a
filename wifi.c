@@ -168,7 +168,7 @@ static char iface[PROPERTY_VALUE_MAX];
     #define WIFI_FIRMWARE_MODULE_NAME       "nano_if"
     #endif
     #ifndef WIFI_FIRMWARE_MODULE_ARG
-    #define WIFI_FIRMWARE_MODULE_ARG        "nrx_config=/system/lib/modules"
+    #define WIFI_FIRMWARE_MODULE_ARG        "nrx_config=/vendor/firmware"
     #endif
 
 static const char FIRMWARE_MODULE_NAME[]  = WIFI_FIRMWARE_MODULE_NAME;

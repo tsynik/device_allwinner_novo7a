@@ -8,6 +8,8 @@ on early-init
         mkdir /mnt/usbhost 0000 system system
         mkdir /mnt/cdrom 0000 system system
         symlink /mnt/sdcard /sdcard
+        symlink /mnt/extsd /extsd
+        symlink /mnt/usbhost /usbhost
 
 on fs
 
@@ -39,6 +41,11 @@ on post-fs
         chmod 0660 /sys/class/rfkill/rfkill1/state
         write /sys/class/rfkill/rfkill0/state 0
         setprop rw.bluetooth.status "0"
+
+on post-fs-data
+        mkdir /data/misc/wifi 0771 wifi wifi
+        mkdir /data/misc/wifi/sockets 0771 wifi wifi
+        mkdir /data/misc/dhcp 0771 dhcp dhcp
 
 on boot
         # DRIVERS
