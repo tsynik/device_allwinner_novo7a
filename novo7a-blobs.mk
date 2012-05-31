@@ -38,6 +38,11 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/etc/3g_dongle.cfg:system/etc/3g_dongle.cfg \
 	device/allwinner/novo7a/prebuilt/bin/usb_modeswitch:system/bin/usb_modeswitch \
 	device/allwinner/novo7a/prebuilt/etc/usb_modeswitch.sh:system/etc/usb_modeswitch.sh \
+	device/allwinner/novo7a/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
+	device/allwinner/novo7a/prebuilt/etc/ppp/ip-down:system/etc/ppp/ip-down \
+	device/allwinner/novo7a/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up \
+	device/allwinner/novo7a/prebuilt/bin/chat:system/bin/chat \
+	device/allwinner/novo7a/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 
 PRODUCT_COPY_FILES += $(shell test -d device/allwinner/novo7a/prebuilt/etc/usb_modeswitch.d && \
 	find device/allwinner/novo7a/prebuilt/etc/usb_modeswitch.d -name '*' \
