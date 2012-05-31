@@ -114,6 +114,7 @@ set_perm(1014, 2000, 0550, "/system/etc/dhcpcd/dhcpcd-run-hooks");
 set_perm(0, 2000, 0550, "/system/etc/init.goldfish.sh");
 set_perm(0, 0, 06755, "/system/xbin/su");
 symlink("/system/xbin/su", "/system/bin/su");
+symlink("/system/vendor/firmware", "/system/lib/firmware");
 ui_print("Updating ROOT...");
 package_extract_file("boot.img", "/dev/block/nandc");
 ui_print("Updating U-BOOT config and logo...");

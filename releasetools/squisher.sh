@@ -25,15 +25,17 @@ rm -f $REPACK/ota/system/app/QuickSearchBox.apk
 rm -f $REPACK/ota/system/app/Trebuchet.apk
 rm -f $REPACK/ota/system/app/Gallery2.apk
 
-# !!! TEMP: fix modules loading
-echo "relocating modules!!!"
-rm -f $REPACK/ota/system/lib/modules/*
-cp -f $DEVICE_TOP/prebuilt/lib/modules-3.0.31/* $REPACK/ota/system/lib/modules/
 
 # !!! TEMP: replace boot ramdisk
 echo "replacing boot ramdisk"
 rm -f $REPACK/ota/boot.img
 cp -f $DEVICE_TOP/boot-3.0.31.img $REPACK/ota/boot.img
+# !!! TEMP: fix modules loading
+echo "relocating modules!!!"
+rm -f $REPACK/ota/system/lib/modules/*
+cp -f $DEVICE_TOP/prebuilt/lib/modules-3.0.31/* $REPACK/ota/system/lib/modules/
+# !!! Firmware for various kernel modules
+cp -R -f $DEVICE_TOP/prebuilt/lib/firmware/* $REPACK/ota/system/vendor/firmware/
 
 cp -f $DEVICE_TOP/updater-script $REPACK/ota/META-INF/com/google/android/updater-script
 
