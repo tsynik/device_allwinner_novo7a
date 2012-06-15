@@ -29,6 +29,8 @@ on fs
 
         # CD-ROM
         mount iso9660 /dev/block/sr0 /mnt/cdrom ro
+        # Debug FS
+        mount -t debugfs none /sys/kernel/debug
 
 on post-fs
 
