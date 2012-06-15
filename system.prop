@@ -28,8 +28,9 @@ ro.display.switch = 1
 #Disable ADB notification
 persist.adb.notify=0
 
-#RIL config
+#RIL (AllWinner)
 rild.libpath=/system/lib/liballwinner-ril.so
 rild.libargs=-d /dev/ttyUSB2
+#RIL (Huawei 3G)
 #rild.libpath=/system/lib/libhuaweigeneric-ril.so
 #rild.libargs=-d /dev/ttyUSB2 -v /dev/ttyUSB1

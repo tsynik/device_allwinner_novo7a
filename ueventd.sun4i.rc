@@ -32,6 +32,7 @@
 /dev/ttyS1                0660   system     system
 /dev/android_adb          0660   adb        adb
 /dev/ppp                  0660   radio      vpn
+/dev/ppp                  0666   radio      vpn
 /dev/graphics/*           0660   root       graphics
 # 3G modems, GPS
 /dev/ttyUSB*              0666   system     system
