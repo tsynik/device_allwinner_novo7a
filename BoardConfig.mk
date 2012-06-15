@@ -35,9 +35,9 @@ TARGET_CUSTOM_RELEASETOOL := ./device/allwinner/novo7a/releasetools/squisher
 BOARD_HAVE_BLUETOOTH := true
 
 #TARGET_USES_CUSTOM_VIBRATOR_PATH := "/sys/class/timed_output/sun4i-vibrator/enable"
-BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/allwinner/common/vibrator.c
+BOARD_HAS_VIBRATOR_IMPLEMENTATION := ../../device/allwinner/a10/vibrator.c
 
-BOARD_HAS_SDCARD_INTERNAL := true
+#BOARD_HAS_SDCARD_INTERNAL := true # Does recovery properly format it? 
 
 TARGET_USE_CUSTOM_LUN_FILE_PATH = "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 TARGET_USE_CUSTOM_SECOND_LUN_NUM := 1
@@ -69,15 +69,15 @@ SW_BOARD_GSENSOR_DIRECT_Y := false
 SW_BOARD_GSENSOR_DIRECT_Z := true
 SW_BOARD_GSENSOR_XY_REVERT := true
 
-#Wifi stuff
+# Wifi (8192cu)
 #BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-#WPA_SUPPLICANT_VERSION := VER_0_8_X
+#WPA_SUPPLICANT_VERSION      := VER_0_8_X
 #BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
-#TARGET_CUSTOM_WIFI := ../../device/allwinner/common/wifi.c
-#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/r8712u.ko"
-#WIFI_DRIVER_MODULE_NAME     := r8712u
-#WIFI_DRIVER_FW_PATH_STA     := r8712u
-#WIFI_DRIVER_FW_PATH_AP      := r8712u
+#TARGET_CUSTOM_WIFI := ../../device/allwinner/a10/wifi.c
+#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/8192cu.ko"
+#WIFI_DRIVER_MODULE_NAME     := 8192cu
+#WIFI_DRIVER_FW_PATH_STA     := 8192cu
+#WIFI_DRIVER_FW_PATH_AP      := 8192cu
 #WIFI_DRIVER_SOCKET_IFACE    := wlan0
 
 #WPA_SUPPLICANT_VERSION := VER_0_8_X  //Prebuilt
@@ -88,6 +88,18 @@ SW_BOARD_GSENSOR_XY_REVERT := true
 #WIFI_FIRMWARE_MODULE_PATH   := "/system/lib/modules/nano_if.ko"
 #WIFI_FIRMWARE_MODULE_NAME   := nano_if
 #WIFI_FIRMWARE_MODULE_ARG    := "nrx_config=/vendor/firmware"
+
+# Wifi related defines
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION      := VER_0_8_X
+
+# Wifi chipset select
+# usb wifi "rtl8192cu"; sdio wifi "nanowifi"/"ar6302"/"usibcm4329"
+SW_BOARD_USR_WIFI := nanowifi
+
+# Kernel
+BOARD_KERNEL_BASE := 0x40000000
+BOARD_KERNEL_CMDLINE := console=ttyS0,115200 rw init=/init loglevel=6
 
 BOARD_USES_UBOOT := false
 BOARD_USES_UIMAGE := true
