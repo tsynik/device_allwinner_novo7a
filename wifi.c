@@ -168,7 +168,7 @@ static char iface[PROPERTY_VALUE_MAX];
     #define WIFI_FIRMWARE_MODULE_NAME       "nano_if"
     #endif
     #ifndef WIFI_FIRMWARE_MODULE_ARG
-    #define WIFI_FIRMWARE_MODULE_ARG        "nrx_config=/vendor/firmware"
+    #define WIFI_FIRMWARE_MODULE_ARG        "nrx_config=/system/vendor/firmware"
     #endif
 
 static const char FIRMWARE_MODULE_NAME[]  = WIFI_FIRMWARE_MODULE_NAME;
@@ -201,7 +201,7 @@ static const char FIRMWARE_MODULE_ARG[]   = WIFI_FIRMWARE_MODULE_ARG;
 #ifndef WIFI_FIRMWARE_LOADER
 #define WIFI_FIRMWARE_LOADER		""
 #endif
-#define WIFI_TEST_INTERFACE		"wlan0" //"sta" --> "wlan0"
+#define WIFI_TEST_INTERFACE		   "wlan0" //"sta" --> "wlan0"
 
 #ifndef WIFI_DRIVER_FW_PATH_STA
 #define WIFI_DRIVER_FW_PATH_STA		NULL
@@ -1256,4 +1256,19 @@ int wifi_change_fw_path(const char *fwpath)
     }
     close(fd);
     return ret;
+}
+
+int wifi_load_hotspot_driver()
+{
+	LOGV("Load HOTSPOT");
+	return 0;
+}
+int wifi_unload_hotspot_driver()
+{
+	LOGV("Unoad HOTSPOT");
+	return 0;
+}
+int is_wifi_hotspot_driver_loaded()
+{
+	return -1;
 }
