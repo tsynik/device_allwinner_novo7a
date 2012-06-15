@@ -46,10 +46,10 @@
     <dimen name="keyguard_pattern_unlock_clock_font_size">96sp</dimen>
 
     <!-- Size of lockscreen outerring on unsecure unlock LockScreen -->
-    <dimen name="keyguard_lockscreen_outerring_diameter">300dp</dimen>
+    <dimen name="keyguard_lockscreen_outerring_diameter">276dp</dimen>
 
     <!-- target placement radius for MultiWaveView -->
-    <dimen name="multiwaveview_target_placement_radius">150dip</dimen>
+    <dimen name="multiwaveview_target_placement_radius">138dip</dimen>
 
     <!-- Size of status line font in LockScreen. -->
     <dimen name="keyguard_pattern_unlock_status_line_font_size">14sp</dimen>
@@ -67,6 +67,6 @@
     <dimen name="default_app_widget_padding_bottom">18dp</dimen>
 
     <!-- Minimum width for an action button in the menu area of an action bar -->
-    <dimen name="action_button_min_width">64dip</dimen>
+    <dimen name="action_button_min_width">48dip</dimen>
 </resources>
 
