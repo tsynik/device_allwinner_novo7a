@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-$(call inherit-product, device/allwinner/common/device.mk)
 $(call inherit-product, device/allwinner/novo7a/full_novo7a.mk)
 # Inherit some common CM9 stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
@@ -21,8 +20,6 @@ $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
 $(call inherit-product, vendor/cm/config/gsm.mk)
 # N7A prebuilt
 $(call inherit-product, device/allwinner/novo7a/novo7a-blobs.mk)
-
-#TARGET_BOOTANIMATION_NAME :=  ivi
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_NAME := cm_novo7a

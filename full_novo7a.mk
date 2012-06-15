@@ -13,11 +13,9 @@
 # limitations under the License.
 
 # Inherit from those products. Most specific first.
-
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 $(call inherit-product, device/allwinner/novo7a/novo7a.mk)
 $(call inherit-product, frameworks/base/build/tablet-dalvik-heap.mk)
-$(call inherit-product, device/allwinner/novo7a/novo7a-blobs.mk)
 $(call inherit-product-if-exists, vendor/allwinner/a10/a10-vendor.mk)
 
 # Set those variables here to overwrite the inherited values.
@@ -26,9 +24,3 @@ PRODUCT_DEVICE := novo7a
 PRODUCT_BRAND := Allwinner
 PRODUCT_MODEL := A10
 PRODUCT_MANUFACTURER := Allwinner
-
-
-
-
-
-

@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-#PRODUCT_CHARACTERISTICS := tablet (duplicate)
+PRODUCT_CHARACTERISTICS := tablet
 
 ## (3)  Finally, the least specific parts, i.e. the non-GSM-specific aspects
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -37,6 +37,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
 	frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
 	frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+	frameworks/base/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml \
 	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
 	frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 	frameworks/base/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
@@ -46,6 +47,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
     device/allwinner/novo7a/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
+#	frameworks/base/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 
 # Publish that we support the live wallpaper feature.
 PRODUCT_PACKAGES += LiveWallpapers LiveWallpapersPicker MagicSmokeWallpapers HoloSpiralWallpaper 
@@ -54,7 +56,7 @@ PRODUCT_PACKAGES += VisualizationWallpapers librs_jni
 # EGL stuff
 PRODUCT_PACKAGES += gralloc.sun4i hwcomposer.sun4i display.sun4i
 
-# Sensors
+# Sensors (BMA250 Accelerometer)
 PRODUCT_PACKAGES += lights.sun4i sensors.sun4i
 
 # ICS Camera
@@ -67,7 +69,6 @@ PRODUCT_PACKAGES += FileManager com.android.future.usb.accessory
 PRODUCT_PACKAGES += make_ext4fs e2fsck
 
 # Huawei RIL
-PRODUCT_PACKAGES += libhuaweigeneric-ril
 PRODUCT_PACKAGES += rild_sun4i libhuaweigeneric-ril
 PRODUCT_PROPERTY_OVERRIDES += \
 #rild.libpath=/system/lib/libhuaweigeneric-ril.so \
@@ -78,7 +79,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #PRODUCT_PACKAGES += gps.sun4i // prebuilt
 
 # Audio stuff
-PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa audio_policy.sun4i audio.primary.sun4i
+PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa audio.primary.sun4i
 
 # CedarX libraries
 PRODUCT_PACKAGES += libCedarA libCedarX libcedarv libcedarxbase libcedarxosal libswdrm libcedarxsftdemux

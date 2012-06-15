@@ -28,9 +28,14 @@ PRODUCT_COPY_FILES += \
     device/allwinner/novo7a/prebuilt/etc/media_profiles.xml:system/etc/media_profiles.xml \
 	device/allwinner/novo7a/prebuilt/lib/hw/camera.sun4i.so:system/lib/hw/camera.sun4i.so \
 
+# Cedar
+PRODUCT_COPY_FILES += \
+	external/cedarx/CedarAndroidLib/LIB_ICS_F23/libstagefright_soft_cedar_h264dec.so:system/lib/libstagefright_soft_cedar_h264dec.so \
+
 # GPS (will be removed in future)
 PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/lib/hw/gps.sun4i.so:system/lib/hw/gps.sun4i.so \
+	device/allwinner/novo7a/prebuilt/etc/gps.conf:system/etc/gps.conf \
 
 # OTG/3G stuff
 PRODUCT_COPY_FILES += \
@@ -64,27 +69,34 @@ PRODUCT_COPY_FILES += \
 	device/allwinner/novo7a/prebuilt/usr/idc/qwerty.idc:system/usr/idc/qwerty.idc \
 	device/allwinner/novo7a/prebuilt/usr/idc/qwerty2.idc:system/usr/idc/qwerty2.idc \
 	device/allwinner/novo7a/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
-	device/allwinner/novo7a/prebuilt/etc/gps.conf:system/etc/gps.conf \
 	device/allwinner/novo7a/prebuilt/bin/iptables:system/bin/iptables \
 	device/allwinner/novo7a/prebuilt/bin/ip6tables:system/bin/ip6tables \
-	device/allwinner/novo7a/prebuilt/bin/chat:system/bin/chat \
-	device/allwinner/novo7a/prebuilt/etc/ppp/call-pppd:system/etc/ppp/call-pppd \
-	device/allwinner/novo7a/prebuilt/etc/ppp/ip-down:system/etc/ppp/ip-down \
-	device/allwinner/novo7a/prebuilt/etc/ppp/ip-up:system/etc/ppp/ip-up \
-	device/allwinner/novo7a/prebuilt/etc/apns-conf.xml:system/etc/apns-conf.xml \
 	device/allwinner/novo7a/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
-	device/allwinner/novo7a/prebuilt/lib/liballwinner-ril.so:system/lib/liballwinner-ril.so \
 	device/allwinner/novo7a/prebuilt/bin/erase_misc.sh:system/bin/erase_misc.sh \
-    device/allwinner/novo7a/prebuilt/bootanimation.zip:system/media/bootanimation.zip \
+    device/allwinner/novo7a/prebuilt/bootanimation.zip:system/media/bootanimation.zip
+
+# NTFS RW
+PRODUCT_COPY_FILES += \
+	device/allwinner/novo7a/prebuilt/bin/ntfs-3g:system/bin/ntfs-3g \
+	device/allwinner/novo7a/prebuilt/bin/ntfs-3g.probe:system/bin/ntfs-3g.probe 
+# ExFAT
+PRODUCT_COPY_FILES += \
+	device/allwinner/novo7a/prebuilt/bin/mount.exfat:system/bin/mount.exfat \
+	device/allwinner/novo7a/prebuilt/bin/mkfs.exfat:system/bin/mkfs.exfat \
+	device/allwinner/novo7a/prebuilt/bin/fsck.exfat:system/bin/fsck.exfat 
 
 # Nano Wi-Fi compliant prebuilt supplicant
 #PRODUCT_COPY_FILES += \
-	device/allwinner/novo7a/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant \
+#	device/allwinner/novo7a/prebuilt/bin/wpa_supplicant:system/bin/wpa_supplicant.v6 \
 
-# Firmwares
+# Firmwares (vendor)
 PRODUCT_COPY_FILES += $(shell test -d device/allwinner/novo7a/prebuilt/vendor/firmware && \
 	find device/allwinner/novo7a/prebuilt/vendor/firmware -name '*' \
 	-printf '%p:system/vendor/firmware/%f ')
+
+# Preinstall service
+PRODUCT_COPY_FILES += \
+	device/allwinner/novo7a/prebuilt/bin/preinstall.sh:system/bin/preinstall.sh \
 
 # ROOT
 PRODUCT_COPY_FILES += \
