@@ -145,4 +145,13 @@ service pppd_gprs /system/etc/init.gprs-pppd
     disabled
     oneshot
 
+service preinstall /system/xbin/bash /system/bin/preinstall.sh
+	user root
+    group root
+    disabled
+    oneshot
+               
+on property:sys.boot_completed=1
+    start preinstall
+
 # END
