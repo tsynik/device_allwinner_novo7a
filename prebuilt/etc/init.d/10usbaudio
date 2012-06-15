@@ -1,0 +1,16 @@
+#!/system/xbin/bash
+
+# kernel modules (compiled in kernel)
+#insmod /system/lib/modules/snd-hwdep.ko
+#insmod /system/lib/modules/snd-rawmidi.ko
+#insmod /system/lib/modules/snd-usbmidi-lib.ko
+#insmod /system/lib/modules/snd-usb-audio.ko
+
+if [ -c /dev/snd/pcmC2D0p ]; then
+# valid values for media.audio.out.mode: codec, usb
+setprop media.audio.out.mode usb
+/system/bin/log -t usb-audio "### Route all audio to USB."
+else
+/system/bin/log -t usb-audio "### /dev/snd/pcmC2D0p does not exist. Use default output (codec)"
+fi
+echo "USB audio init: DONE"
