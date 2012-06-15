@@ -1,0 +1,10 @@
+#!/system/bin/sh
+#
+# USB Bluetooth
+#
+insmod /system/lib/modules/ath3k.ko # Atheros bluetooth firmware
+insmod /system/lib/modules/btusb.ko # USB Bluetooth
+
+echo "USB Bluetooth: DONE"
+
+

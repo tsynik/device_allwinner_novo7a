@@ -1,0 +1,11 @@
+#!/system/bin/sh
+#
+# USB Ethernet
+#
+#insmod /system/lib/modules/usbnet.ko # USB Ethernet
+#insmod /system/lib/modules/asix.ko
+#insmod /system/lib/modules/qf9700.ko
+#insmod /system/lib/modules/mcs7830.ko
+#insmod /system/lib/modules/rtl8150.ko # Realtek Ethernet
+
+echo "Ethernet modules: DONE"

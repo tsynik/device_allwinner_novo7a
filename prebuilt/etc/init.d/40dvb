@@ -1,0 +1,17 @@
+#!/system/bin/sh
+
+# IconBIT U410FM DVB/FM tuner
+insmod /system/lib/modules/poseidon.ko
+
+# Symlinks for DroidTV   
+mkdir /dev/dvb
+mkdir /dev/dvb/adapter0
+chmod 775 /dev/dvb
+chmod 775 /dev/dvb/adapter0
+chown root:system /dev/dvb
+chown root:system /dev/dvb/adapter0
+ln -s /dev/dvb0.demux0 /dev/dvb/adapter0/demux0
+ln -s /dev/dvb0.dvr0 /dev/dvb/adapter0/dvr0
+ln -s /dev/dvb0.frontend0 /dev/dvb/adapter0/frontend0
+
+echo "DVB setup: DONE"

@@ -1,0 +1,10 @@
+#!/system/bin/sh
+#
+# Novo7A HW
+#
+insmod /system/lib/modules/hv2605.ko # touch keys
+insmod /system/lib/modules/sun4i-ir.ko # IR Remote
+insmod /system/lib/modules/sun4i-vibrator.ko # Vibrator
+insmod /system/lib/modules/bma250.ko # G-sensor
+
+echo "Loading NOVO7A modules: DONE"

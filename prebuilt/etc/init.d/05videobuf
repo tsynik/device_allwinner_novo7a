@@ -1,0 +1,9 @@
+#!/system/bin/sh
+
+# Video Buf (must be loaded before other modules)
+insmod /system/lib/modules/videobuf-core.ko
+insmod /system/lib/modules/videobuf-dma-contig.ko
+insmod /system/lib/modules/videobuf-vmalloc.ko
+insmod /system/lib/modules/videobuf-dvb.ko
+
+echo "V4L modules: DONE"

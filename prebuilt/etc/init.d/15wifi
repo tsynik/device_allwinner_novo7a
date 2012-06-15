@@ -1,0 +1,15 @@
+#!/system/bin/sh
+#
+# Wi-Fi
+#
+# Realtek r8712u, rtl8192ce, rtl8192cu, rtl8192de, rtl8192e, rtl8192se, rtl8192su and rtl8192u
+insmod /system/lib/modules/r8712u.ko
+#
+# Realtek 8192cu (superseeded by r8712u)
+#insmod /system/lib/modules/8192cu.ko (managed by jni)
+#
+# Nano wi-fi (internal)
+insmod /system/lib/modules/nano_if.ko nrx_config=/system/vendor/firmware # nano firmware
+insmod /system/lib/modules/nano_ksdio.ko # nano wifi
+
+echo "Wi-Fi: DONE"

@@ -1,0 +1,15 @@
+#!/system/bin/sh
+# N7A Cameras
+insmod /system/lib/modules/gc0308.ko # 1st camera
+insmod /system/lib/modules/gt2005.ko # 2nd camera
+insmod /system/lib/modules/sun4i_csi1.ko
+insmod /system/lib/modules/sun4i_csi0.ko
+
+# USB Cameras
+insmod /system/lib/modules/uvcvideo.ko # UVC-compliant camera
+insmod /system/lib/modules/stkwebcam.ko # STK camera
+
+chmod 666 /dev/video*
+chown root:system /dev/video*
+
+echo "Setup Camera(s): DONE"
