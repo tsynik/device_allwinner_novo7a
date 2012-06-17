@@ -25,6 +25,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	dalvik.vm.checkjni=false \
 	dalvik.vm.dexopt-data-only=1 \
 	ro.vold.umsdirtyratio=20 \
+	ro.additionalmounts = /mnt/extsd \
+	ro.vold.switchablepair=/mnt/sdcard,/mnt/extsd \
+	persist.sys.vold.switchexternal=0 \
 	net.dns1=8.8.8.8 \
 	net.dns2=8.8.4.4
 
