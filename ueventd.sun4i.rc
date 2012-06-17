@@ -50,4 +50,9 @@
 /sys/devices/virtual/input/input*   min         0660  root   input
 /sys/devices/virtual/input/input*   poll        0666  root   input
 
+# BT
+/sys/devices/platform/sw_hcd_host0/usb1/1-1/1-1:1.0/bluetooth/hci0/rfkill* state 0777 system system
+/sys/devices/platform/sw-ehci.1/usb2/2-1/2-1.1/2-1.1:1.0/bluetooth/hci0/rfkill* state 0777 system system
+/sys/devices/platform/sw-ohci.1/usb3/3-1/3-1:1.0/bluetooth/hci0/rfkill* state 0777 system system
+
 # END
