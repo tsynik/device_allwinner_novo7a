@@ -57,6 +57,7 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UEventObserver;
 import android.os.Vibrator;
+import android.media.MediaPlayer;
 import android.provider.Settings;
 
 import com.android.internal.R;
@@ -156,6 +157,8 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.DisplayManager;
+
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
  * introduces a new method suffix, Lp, for an internal lock of the
@@ -186,6 +189,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     static final int LONG_PRESS_HOME_NOTHING = 0;
     static final int LONG_PRESS_HOME_RECENT_DIALOG = 1;
     static final int LONG_PRESS_HOME_RECENT_SYSTEM_UI = 2;
+
+    static final int LONG_PRESS_MENU_NOTHING = 0;
+    static final int LONG_PRESS_MENU_SEARCH = 1;
+
+    // Masks for checking presence of hardware keys.
+    // Must match values in core/res/res/values/config.xml
+    private static final int KEY_MASK_HOME = 0x01;
+    private static final int KEY_MASK_BACK = 0x02;
+    private static final int KEY_MASK_MENU = 0x04;
+    private static final int KEY_MASK_SEARCH = 0x08;
+    private static final int KEY_MASK_APP_SWITCH = 0x10;
 
     // wallpaper is at the bottom, though the window manager may move it.
     static final int WALLPAPER_LAYER = 2;
@@ -465,6 +479,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // What we do when the user long presses on home
     private int mLongPressOnHomeBehavior = -1;
+
+    // What we do when the user long presses on menu
+    private int mLongPressOnMenuBehavior = -1;
 
     // Screenshot trigger states
     // Time to volume and power must be pressed within this interval of each other.
@@ -855,6 +872,37 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
+    private void handleLongPressOnMenu() {
+        if (mLongPressOnMenuBehavior < 0) {
+            if ((mContext.getResources().getInteger(
+                    R.integer.config_deviceHardwareKeys) & KEY_MASK_SEARCH) == 0) {
+                // Hardware search key not present
+                mLongPressOnMenuBehavior = LONG_PRESS_MENU_SEARCH;
+            } else {
+                mLongPressOnMenuBehavior = LONG_PRESS_MENU_NOTHING;
+            }
+        }
+
+        if (mLongPressOnMenuBehavior == LONG_PRESS_MENU_SEARCH) {
+            performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+            triggerVirtualKeypress(KeyEvent.KEYCODE_SEARCH);
+        }
+    }
+
+    private void triggerVirtualKeypress(final int keyCode) {
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    mWindowManager.injectKeyEvent(
+                            new KeyEvent(KeyEvent.ACTION_DOWN, keyCode), true);
+                    mWindowManager.injectKeyEvent(
+                            new KeyEvent(KeyEvent.ACTION_UP, keyCode), true);
+                } catch(RemoteException e) {
+                }
+            }
+        }).start();
+    }
+
     /**
      * Create (if necessary) and show or dismiss the recent apps dialog according
      * according to the requested behavior.
@@ -960,6 +1008,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // Retrieve current sticky dock event broadcast.
             mDockMode = intent.getIntExtra(Intent.EXTRA_DOCK_STATE,
                     Intent.EXTRA_DOCK_STATE_UNDOCKED);
+        }
+
+        // register for allwinner HDMI event broadcast
+        IntentFilter filterHDMI = new IntentFilter();
+        filterHDMI.addAction(Intent.ACTION_HDMISTATUS_CHANGED);
+        filterHDMI.addAction(Intent.ACTION_TVDACSTATUS_CHANGED);
+        Intent intentHDMI = context.registerReceiver(mHDMIReceiver, filterHDMI);
+        if (intentHDMI != null) {
+        	if (intentHDMI.getIntExtra(DisplayManager.EXTRA_HDMISTATUS, 0) == 1) {
+        		setHdmiPlugged(true);
+        	} else {
+        		setHdmiPlugged(false);
+        	}
         }
 
         mVibrator = new Vibrator();
@@ -1782,7 +1843,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // Hijack modified menu keys for debugging features
             final int chordBug = KeyEvent.META_SHIFT_ON;
 
-            if (down && repeatCount == 0) {
+            if (down) {
+                if (repeatCount == 0) {
                 if (mEnableShiftMenuBugReports && (metaState & chordBug) == chordBug) {
                     Intent intent = new Intent(Intent.ACTION_BUG_REPORT);
                     mContext.sendOrderedBroadcast(intent, null);
@@ -1802,6 +1864,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.putInt(
                             res, Settings.System.SHOW_PROCESSES, shown ? 0 : 1);
                     return -1;
+                }
+                } else if ((event.getFlags() & KeyEvent.FLAG_LONG_PRESS) != 0) {
+                    if (!keyguardOn) {
+                        handleLongPressOnMenu();
+                        if (mLongPressOnMenuBehavior != LONG_PRESS_MENU_NOTHING) {
+                            // Do not open menu when key is released
+                            return -1;
+                        }
+                    }
                 }
             }
         } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
@@ -3304,6 +3375,18 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     };
 
+    BroadcastReceiver mHDMIReceiver = new BroadcastReceiver() {
+    	    public void onReceive(Context context, Intent intent) {
+    	    	     if (Intent.ACTION_HDMISTATUS_CHANGED.equals(intent.getAction())) {
+    	    	     	     if(intent.getIntExtra(DisplayManager.EXTRA_HDMISTATUS, 0) == 1) {
+    	    	     	     	     setHdmiPlugged(true);
+    	    	     	     } else {
+    	    	     	     	     setHdmiPlugged(false);
+    	    	     	     }
+    	    	     }
+    	    }
+    };
+
     BroadcastReceiver mThemeChangeReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             mUiContext = null;
@@ -3451,7 +3534,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         synchronized (mLock) {
-            int sensorRotation = mOrientationListener.getProposedRotation(); // may be -1
+            int sensorRotation;
+
+            if(MediaPlayer.isPlayingVideo()) {
+               sensorRotation = Surface.ROTATION_0;
+            } else {
+               sensorRotation = mOrientationListener.getProposedRotation(); // may be -1
+            }
+
             if (sensorRotation < 0) {
                 sensorRotation = lastRotation;
             }
