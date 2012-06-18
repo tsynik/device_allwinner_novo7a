@@ -157,6 +157,7 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 
 /* EXTERNAL USB DAC */
 #define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
+#define OUT_CARD_FREQ_PROPERTY  "usb.audio.out.freq"
 /* First device after HDMI is default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
@@ -1209,8 +1210,6 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	card = property[4] - '0';
     	port = property[6] - '0';
         LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
-        /* Define preferred rate */        
-    	out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1222,6 +1221,10 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
+        /* Define preferred rate */
+                
+    	property_get(OUT_CARD_FREQ_PROPERTY, property, "44100"); 	
+    	out->config.rate = atoi(property);
         if (!(out->config.rate >= config.rate_min &&
                   out->config.rate <= config.rate_max)) {
             LOGV("# Requested %dHz using supported value %dHz\n",out->config.rate, config.rate_max);
