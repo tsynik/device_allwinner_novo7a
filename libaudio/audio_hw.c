@@ -160,7 +160,7 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 /* First device after HDMI is default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
-/ * Internal MIC is default */
+/* Internal MIC is default */
 #define CAP_CARD_CID  "pcmC0D0c"
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
