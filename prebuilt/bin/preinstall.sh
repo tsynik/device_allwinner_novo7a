@@ -7,8 +7,8 @@ if [ ! -e /data/system.notfirstrun ]; then
 	$BUSYBOX touch /data/system.notfirstrun	
 	for f in /data/preinstall/*.apk
 	do
-  		echo "Processing $f file..."
-		/system/bin/sh /system/bin/pm install -r -f $f
+  		/system/bin/log -t preinstall "### Processing $f file..."
+		/system/bin/sh /system/bin/pm install $f
 	done
 	# copy android modify tool files
 #	mkdir /mnt/nanda
