@@ -155,11 +155,13 @@ D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 #define PORT_HDMI 0
 #define PORT_USB 0
 
-/* EXTERNAL DAC */
+/* EXTERNAL USB DAC */
 #define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
+/* First device after HDMI is default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
-#define CAP_CARD_CID  "pcmC2D0c"
+/ * Internal MIC is default */
+#define CAP_CARD_CID  "pcmC0D0c"
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
 #define ABE_BASE_FRAME_COUNT 24
@@ -1706,14 +1708,21 @@ static int start_input_stream(struct sun4i_stream_in *in)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-        if (!(in->config.rate >= config.rate_min &&
-                  in->config.rate <= config.rate_max)) {
-            LOGV("# Requested %dHz using supported value %dHz\n",in->config.rate, config.rate_max);
+/*
+        if (!(in->requested_rate >= config.rate_min &&
+                  in->requested_rate <= config.rate_max)) {
+            LOGV("# Requested %dHz using supported value %dHz\n",in->requested_rate, config.rate_max);
             in->config.rate = config.rate_max;
+    	}
+*/
+        if (!(in->config.channels >= config.channels_min &&
+                  in->config.channels <= config.channels_max)) {
+            LOGV("# Requested %dCh using supported value %dCh\n",in->config.channels, config.channels_max);
+            in->config.channels = config.channels_max;
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio input selected! Sampling rate: %dHz", in->config.rate);
+        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
     }
 exit:
 	
