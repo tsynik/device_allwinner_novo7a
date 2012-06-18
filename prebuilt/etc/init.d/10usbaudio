@@ -6,11 +6,11 @@
 #insmod /system/lib/modules/snd-usbmidi-lib.ko
 #insmod /system/lib/modules/snd-usb-audio.ko
 
-# Disable external record source by default.
+# Set external record source as default. Override internal MIC 
 if [ -c /dev/snd/pcmC2D0c ]; then
 # valid values for usb.audio.cap.device: pcmCxDxc PCM audio device in /dev/snd folder
-setprop usb.audio.cap.device pcmC0D0c
-/system/bin/log -t usb-audio "### Disable external USB record source."
+#setprop usb.audio.cap.device pcmC2D0c
+#/system/bin/log -t usb-audio "### Enable external USB record source."
 else
 /system/bin/log -t usb-audio "### /dev/snd/pcmC2D0c does not exist. Nothing to be done."
 fi
