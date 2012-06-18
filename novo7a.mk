@@ -82,7 +82,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 #PRODUCT_PACKAGES += gps.sun4i // prebuilt
 
 # Audio stuff
-PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa audio.primary.sun4i
+PRODUCT_PACKAGES += audio.a2dp.default libaudioutils libtinyalsa tinyplay tinycap tinymix audio.primary.sun4i 
 
 # CedarX libraries
 PRODUCT_PACKAGES += libCedarA libCedarX libcedarv libcedarxbase libcedarxosal libswdrm libcedarxsftdemux

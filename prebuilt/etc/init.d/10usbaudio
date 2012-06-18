@@ -6,11 +6,12 @@
 #insmod /system/lib/modules/snd-usbmidi-lib.ko
 #insmod /system/lib/modules/snd-usb-audio.ko
 
-if [ -c /dev/snd/pcmC2D0p ]; then
-# valid values for media.audio.out.mode: codec, usb
-setprop media.audio.out.mode usb
-/system/bin/log -t usb-audio "### Route all audio to USB."
+# Disable external record source by default.
+if [ -c /dev/snd/pcmC2D0c ]; then
+# valid values for usb.audio.cap.device: pcmCxDxc PCM audio device in /dev/snd folder
+setprop usb.audio.cap.device pcmC0D0c
+/system/bin/log -t usb-audio "### Disable external USB record source."
 else
-/system/bin/log -t usb-audio "### /dev/snd/pcmC2D0p does not exist. Use default output (codec)"
+/system/bin/log -t usb-audio "### /dev/snd/pcmC2D0c does not exist. Nothing to be done."
 fi
 echo "USB audio init: DONE"
