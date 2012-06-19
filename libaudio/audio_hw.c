@@ -1205,12 +1205,7 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-<<<<<<< HEAD
-        /* Define preferred rate */
-                
-=======
         /* Define preferred rate */                
->>>>>>> update audio lib to eternal input channels detection and set internal mic as default
     	property_get(OUT_CARD_FREQ_PROPERTY, property, "44100"); 	
     	out->config.rate = atoi(property);
         if (!(out->config.rate >= config.rate_min &&
