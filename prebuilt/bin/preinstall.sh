@@ -1,6 +1,6 @@
 #!/system/xbin/bash
 
-echo "Preinstall job running..."
+/system/bin/log -t preinstall "### Preinstall job running..."
 BUSYBOX="/system/xbin/busybox"
 
 if [ ! -e /data/system.notfirstrun ]; then		
@@ -25,4 +25,4 @@ else
     $BUSYBOX rm -rf /data/preinstall/*
 fi
 
-echo "Preinstall OK"
+/system/bin/log -t preinstall "### Preinstall job done"
