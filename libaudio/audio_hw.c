@@ -44,7 +44,6 @@
 #define F_LOG LOGV("########## %s ##########", __FUNCTION__);
 
 /* Mixer control names */
-/*
 #define MIXER_DL2_LEFT_EQUALIZER            "DL2 Left Equalizer"
 #define MIXER_DL2_RIGHT_EQUALIZER           "DL2 Right Equalizer"
 #define MIXER_DL1_MEDIA_PLAYBACK_VOLUME     "DL1 Media Playback Volume"
@@ -87,30 +86,44 @@
 #define MIXER_MUX_VX1                       "MUX_VX1"
 #define MIXER_MUX_UL10                      "MUX_UL10"
 #define MIXER_MUX_UL11                      "MUX_UL11"
-*/
 
-/* Sun4i Mixer Controls
-ctl	type	num	name                                     value range
-0	INT		1	Master Playback Volume                   (0->63)
-1	BOOL	1	Playback Switch                          (0/1)
-2	INT		1	Capture Volume                           (0->7)
-3	INT		1	Fm Volume                                (0->7)
-4	BOOL	1	Line Volume                              (0/1)
-5	INT		1	MicL Volume                              (0->3)
-6	INT		1	MicR Volume                              (0->3)
-7	BOOL	1	FmL Switch                               (0/1)
-8	BOOL	1	FmR Switch                               (0/1)
-9	BOOL	1	LineL Switch                             (0/1)
-10	BOOL	1	LineR Switch                             (0/1)
-11	BOOL	1	Ldac Left Mixer                          (0/1)
-12	BOOL	1	Rdac Right Mixer                         (0/1)
-13	BOOL	1	Ldac Right Mixer                         (0/1)
-14	INT		1	Mic Input Mux                            (0->15)
-15	INT		1	ADC Input Mux                            (0->15)
+/*
+D/tinyalsa(  602): mix id:0 name:Master Playback Volume
+D/tinyalsa(  602): mix id:1 name:Playback Switch
+D/tinyalsa(  602): mix id:2 name:Capture Volume
+D/tinyalsa(  602): mix id:3 name:Fm Volume
+D/tinyalsa(  602): mix id:4 name:Line Volume
+D/tinyalsa(  602): mix id:5 name:MicL Volume
+D/tinyalsa(  602): mix id:6 name:MicR Volume
+D/tinyalsa(  602): mix id:7 name:FmL Switch
+D/tinyalsa(  602): mix id:8 name:FmR Switch
+D/tinyalsa(  602): mix id:9 name:LineL Switch
+D/tinyalsa(  602): mix id:10 name:LineR Switch
+D/tinyalsa(  602): mix id:11 name:Ldac Left Mixer
+D/tinyalsa(  602): mix id:12 name:Rdac Right Mixer
+D/tinyalsa(  602): mix id:13 name:Ldac Right Mixer
+D/tinyalsa(  602): mix id:14 name:Mic Input Mux
+D/tinyalsa(  602): mix id:15 name:ADC Input Mux
+D/tinyalsa(  602): mix id:0 name:Master Playback Volume
+D/tinyalsa(  602): mix id:1 name:Playback Switch
+D/tinyalsa(  602): mix id:2 name:Capture Volume
+D/tinyalsa(  602): mix id:3 name:Fm Volume
+D/tinyalsa(  602): mix id:4 name:Line Volume
+D/tinyalsa(  602): mix id:5 name:MicL Volume
+D/tinyalsa(  602): mix id:6 name:MicR Volume
+D/tinyalsa(  602): mix id:7 name:FmL Switch
+D/tinyalsa(  602): mix id:8 name:FmR Switch
+D/tinyalsa(  602): mix id:9 name:LineL Switch
+D/tinyalsa(  602): mix id:10 name:LineR Switch
+D/tinyalsa(  602): mix id:11 name:Ldac Left Mixer
+D/tinyalsa(  602): mix id:12 name:Rdac Right Mixer
+D/tinyalsa(  602): mix id:13 name:Ldac Right Mixer
+D/tinyalsa(  602): mix id:14 name:Mic Input Mux
+D/tinyalsa(  602): mix id:15 name:ADC Input Mux
 */
 
 /* Mixer control gain and route values */
-#define MIXER_ABE_GAIN_0DB                  60
+#define MIXER_ABE_GAIN_0DB                  120
 #define MIXER_PLAYBACK_HS_DAC               "HS DAC"
 #define MIXER_PLAYBACK_HF_DAC               "HF DAC"
 #define MIXER_MAIN_MIC                      "Main Mic"
@@ -134,19 +147,19 @@ ctl	type	num	name                                     value range
 #define PORT_MM 0
 #define PORT_MM2_UL 0
 #define PORT_VX 2
+#define PORT_TONES 3
+#define PORT_VIBRA 4
 #define PORT_MODEM 5
 #define PORT_MM_LP 6
 #define PORT_SPDIF 9
 #define PORT_HDMI 0
+#define PORT_USB 0
 
-/* EXTERNAL USB DAC */
+/* EXTERNAL DAC */
 #define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
-#define OUT_CARD_FREQ_PROPERTY  "usb.audio.out.freq"
-/* First device after HDMI is default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
-/* Internal MIC is default */
-#define CAP_CARD_CID  "pcmC0D0c"
+#define CAP_CARD_CID  "pcmC2D0c"
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
 #define ABE_BASE_FRAME_COUNT 24
@@ -162,13 +175,13 @@ ctl	type	num	name                                     value range
 #define PLAYBACK_LONG_PERIOD_COUNT 2
 /* number of pseudo periods for low latency playback */
 #define PLAYBACK_SHORT_PERIOD_COUNT 4
+/* number of periods for capture */
+#define CAPTURE_PERIOD_COUNT 4		//ex.2
 /* minimum sleep time in out_write() when write threshold is not reached */
 #define MIN_WRITE_SLEEP_US 5000
 
 // add for capture
 #define CAPTURE_PERIOD_SIZE 4096	// can not less than 8192
-/* number of periods for capture */
-#define CAPTURE_PERIOD_COUNT 4		//ex.2
 
 #define RESAMPLER_BUFFER_FRAMES (SHORT_PERIOD_SIZE * 2)
 #define RESAMPLER_BUFFER_SIZE (4 * RESAMPLER_BUFFER_FRAMES)
@@ -1194,6 +1207,8 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	card = property[4] - '0';
     	port = property[6] - '0';
         LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
+        /* Define preferred rate */        
+    	out->config.rate = MM_LOW_POWER_SAMPLING_RATE;
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1205,12 +1220,7 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-<<<<<<< HEAD
         /* Define preferred rate */
-                
-=======
-        /* Define preferred rate */                
->>>>>>> update audio lib to eternal input channels detection and set internal mic as default
     	property_get(OUT_CARD_FREQ_PROPERTY, property, "44100"); 	
     	out->config.rate = atoi(property);
         if (!(out->config.rate >= config.rate_min &&
@@ -1699,21 +1709,14 @@ static int start_input_stream(struct sun4i_stream_in *in)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-/*
-        if (!(in->requested_rate >= config.rate_min &&
-                  in->requested_rate <= config.rate_max)) {
-            LOGV("# Requested %dHz using supported value %dHz\n",in->requested_rate, config.rate_max);
+        if (!(in->config.rate >= config.rate_min &&
+                  in->config.rate <= config.rate_max)) {
+            LOGV("# Requested %dHz using supported value %dHz\n",in->config.rate, config.rate_max);
             in->config.rate = config.rate_max;
-    	}
-*/
-        if (!(in->config.channels >= config.channels_min &&
-                  in->config.channels <= config.channels_max)) {
-            LOGV("# Requested %dCh using supported value %dCh\n",in->config.channels, config.channels_max);
-            in->config.channels = config.channels_max;
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
+        LOGV("### USB audio input selected! Sampling rate: %dHz", in->config.rate);
     }
 exit:
 	
@@ -2041,8 +2044,8 @@ static int get_next_buffer(struct resampler_buffer_provider *buffer_provider,
         return -ENODEV;
     }
 
-//	LOGV("get_next_buffer: in->config.period_size: %d, audio_stream_frame_size: %d", 
-//		in->config.period_size, audio_stream_frame_size(&in->stream.common));
+	LOGV("get_next_buffer: in->config.period_size: %d, audio_stream_frame_size: %d", 
+		in->config.period_size, audio_stream_frame_size(&in->stream.common));
     if (in->frames_in == 0) {
         in->read_status = pcm_read(in->pcm,
                                    (void*)in->buffer,
