@@ -793,7 +793,7 @@ static void set_input_volumes(struct sun4i_audio_device *adev, int main_mic_on,
 {
     unsigned int channel;
     int volume = MIXER_ABE_GAIN_0DB;
-/*
+
     if (adev->mode == AUDIO_MODE_IN_CALL) {
         int sub_mic_volume = is_device_toro() ? VOICE_CALL_SUB_MIC_VOLUME_TORO :
 	                                        VOICE_CALL_SUB_MIC_VOLUME_MAGURO;
