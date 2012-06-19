@@ -60,7 +60,7 @@ PRODUCT_PACKAGES += VisualizationWallpapers librs_jni
 PRODUCT_PACKAGES += gralloc.sun4i hwcomposer.sun4i display.sun4i
 
 # Sensors (BMA250 Accelerometer)
-PRODUCT_PACKAGES += lights.sun4i sensors.sun4i
+PRODUCT_PACKAGES += lights.sun4i sensors.bma250.sun4i
 
 # ICS Camera
 PRODUCT_PACKAGES += camera.sun4i
