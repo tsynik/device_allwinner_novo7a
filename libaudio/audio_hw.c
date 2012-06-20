@@ -630,9 +630,15 @@ static int is_device_usb_cap(void)
     struct stat info;
     char path[18]="/dev/snd/";
     strcat(path, property);
-    int ret = stat(path, &info);
-    LOGV("# is_device_usb_cap, dev: %s, ret: %d", property, ret);
-    return(ret == -1 ? 0 : 1);
+    // internal MIC case
+    if (strcmp(property, "pcmC0D0c") == 0) {
+    	LOGV("# internal mic input selected");
+    	return(0);
+    } else {
+    	int ret = stat(path, &info);
+    	LOGV("# is_device_usb_cap, dev: %s, ret: %d", property, ret);
+    	return(ret == -1 ? 0 : 1);
+    }
 }
 
 /* The enable flag when 0 makes the assumption that enums are disabled by
@@ -1193,7 +1199,8 @@ static int start_output_stream(struct sun4i_stream_out *out)
         ptr = property;
     	card = property[4] - '0';
     	port = property[6] - '0';
-        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
+    	// streamtype = &ptr[7]
+        LOGV("# card: %u, port: %u", card, port);
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1570,8 +1577,9 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
         out->low_power = low_power;
     }
 
-    /* only use resampler if required */
-    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE) {
+    /* only use resampler if required (avoid 48000Hz resampling for external DAC) */
+    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE && out->config.rate != 48000) {
+    	LOGD("### out->resampler");
         out->resampler->resample_from_input(out->resampler,
                                             (int16_t *)buffer,
                                             &in_frames,
