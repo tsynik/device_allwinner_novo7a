@@ -1,9 +1,9 @@
 #!/system/xbin/bash
 
-/system/bin/log -t preinstall "### Preinstall job running..."
 BUSYBOX="/system/xbin/busybox"
 
 if [ ! -e /data/system.notfirstrun ]; then		
+	/system/bin/log -t preinstall "### Preinstall job running..."
 	$BUSYBOX touch /data/system.notfirstrun	
 	for f in /data/preinstall/*.apk
 	do
@@ -20,9 +20,7 @@ if [ ! -e /data/system.notfirstrun ]; then
 #	sync
 #	umount /mnt/nanda
 #	rmdir /mnt/nanda
-
+	/system/bin/log -t preinstall "### Preinstall job done"
 else
     $BUSYBOX rm -rf /data/preinstall/*
 fi
-
-/system/bin/log -t preinstall "### Preinstall job done"
