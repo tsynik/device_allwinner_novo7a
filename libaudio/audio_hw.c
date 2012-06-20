@@ -1578,8 +1578,8 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     }
 
     /* only use resampler if required (avoid 48000Hz resampling for external DAC) */
-    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE && out->config.rate != 48000) {
-    	LOGD("### out->resampler");
+    if (out->config.rate != DEFAULT_OUT_SAMPLING_RATE/* && out->config.rate != 48000*/) {
+//    	LOGD("### out->resampler");
         out->resampler->resample_from_input(out->resampler,
                                             (int16_t *)buffer,
                                             &in_frames,
