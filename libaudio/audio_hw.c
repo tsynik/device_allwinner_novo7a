@@ -142,10 +142,11 @@ ctl	type	num	name                                     value range
 /* EXTERNAL USB DAC */
 #define OUT_CARD_CID_PROPERTY  "usb.audio.out.device"
 #define OUT_CARD_FREQ_PROPERTY  "usb.audio.out.freq"
-/* First device after HDMI is default */
+/* Define first device after HDMI as default */
 #define OUT_CARD_CID  "pcmC2D0p"
 #define CAP_CARD_CID_PROPERTY  "usb.audio.cap.device"
-/* Internal MIC is default */
+#define CAP_CARD_FREQ_PROPERTY  "usb.audio.cap.freq"
+/* Define internal MIC as default source */
 #define CAP_CARD_CID  "pcmC0D0c"
 
 /* constraint imposed by ABE: all period sizes must be multiples of 24 */
@@ -615,11 +616,20 @@ static int is_device_usb_dac(void)
     char property[PROPERTY_VALUE_MAX];
     property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID);
     struct stat info;
-    char path[18]="/dev/snd/";
-    strcat(path, property);
-    int ret = stat(path, &info);
-    LOGV("# is_device_usb_dac, dev: %s, ret: %d", property, ret);
-    return(ret == -1 ? 0 : 1);
+    if (strcmp(&property[7], "p") == 0) {
+		char path[18]="/dev/snd/";
+		strcat(path, property);
+		int ret = stat(path, &info);
+		if (ret == 0) {
+			LOGV("# property: %s, dev: %s, present", OUT_CARD_CID_PROPERTY, property);
+		} else {
+			LOGV("# property: %s, dev: %s, device not exist!", OUT_CARD_CID_PROPERTY, property);
+		}
+		return(ret == -1 ? 0 : 1);
+	} else {
+		LOGV("# property: %s, dev: %s, not a playback device! use default output", OUT_CARD_CID_PROPERTY, property);
+	}
+	return(0);
 }
 
 /* Returns true for external DAC, false otherwise */
@@ -628,17 +638,24 @@ static int is_device_usb_cap(void)
     char property[PROPERTY_VALUE_MAX];
     property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID);
     struct stat info;
-    char path[18]="/dev/snd/";
-    strcat(path, property);
-    // internal MIC case
+    /* property value: pcmC[4]D[6]c */    
+    /* Special case for internal MIC */
     if (strcmp(property, "pcmC0D0c") == 0) {
     	LOGV("# internal mic input selected");
-    	return(0);
-    } else {
+    } else if (strcmp(&property[7], "c") == 0) {
+    	char path[18]="/dev/snd/";
+    	strcat(path, property);
     	int ret = stat(path, &info);
-    	LOGV("# is_device_usb_cap, dev: %s, ret: %d", property, ret);
+    	if (ret == 0) {
+    		LOGV("# property: %s, dev: %s, present", CAP_CARD_CID_PROPERTY, property);
+    	} else {
+    		LOGV("# property: %s, dev: %s, device not exists!", CAP_CARD_CID_PROPERTY, property);
+    	}
     	return(ret == -1 ? 0 : 1);
+    } else {
+    	LOGV("# property: %s, dev: %s, not a capture device! use default source", CAP_CARD_CID_PROPERTY, property);
     }
+    return(0);
 }
 
 /* The enable flag when 0 makes the assumption that enums are disabled by
@@ -1194,13 +1211,9 @@ static int start_output_stream(struct sun4i_stream_out *out)
     else if(is_device_usb_dac()) {
     	char property[PROPERTY_VALUE_MAX];
         property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID); 
-        // property value: pcmC[4]D[6]p
-        char *ptr;
-        ptr = property;
+        /* property value: pcmC[4]D[6]p */
     	card = property[4] - '0';
     	port = property[6] - '0';
-    	// streamtype = &ptr[7]
-        LOGV("# card: %u, port: %u", card, port);
         /* HW Info (failsafe check) */
         struct pcm_config config;
         struct pcm *pcm;
@@ -1222,7 +1235,7 @@ static int start_output_stream(struct sun4i_stream_out *out)
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio out selected! Sampling rate: %dHz", out->config.rate);
+        LOGV("### USB audio out selected! Channels: %dCh Sampling rate: %dHz", out->config.channels, out->config.rate);
     }
 exit:
     /* default to low power: will be corrected in out_write if necessary before first write to
@@ -1684,11 +1697,12 @@ static int start_input_stream(struct sun4i_stream_in *in)
     if(is_device_usb_cap()) {
     	char property[PROPERTY_VALUE_MAX];
         property_get(CAP_CARD_CID_PROPERTY, property, CAP_CARD_CID); 
-        // property value: pcmC[4]D[6]c
+        /* property value: pcmC[4]D[6]c */
         char *ptr = property;
     	card = property[4] - '0';
     	port = property[6] - '0';
-        LOGV("# card: %u, port: %u, type: %s", card, port, &ptr[7]);
+    	// streamtype = &ptr[7]
+        LOGV("# card: %u, port: %u, type: capture", card, port);
         /* Define preferred rate */        
     	in->config.rate = MM_LOW_POWER_SAMPLING_RATE;
         /* HW Info (failsafe check) */
@@ -1702,21 +1716,22 @@ static int start_input_stream(struct sun4i_stream_in *in)
     	}
         LOGV("# Supported Rates: (%uHz - %uHz)\n", config.rate_min, config.rate_max);
         LOGV("# Supported Channels: (%uCh - %uCh)\n", config.channels_min, config.channels_max);
-/*
-        if (!(in->requested_rate >= config.rate_min &&
-                  in->requested_rate <= config.rate_max)) {
-            LOGV("# Requested %dHz using supported value %dHz\n",in->requested_rate, config.rate_max);
-            in->config.rate = config.rate_max;
+        /* Define preferred capture rate */
+    	property_get(CAP_CARD_FREQ_PROPERTY, property, "44100"); 	
+    	in->config.rate = atoi(property);
+        if (!(in->config.rate >= config.rate_min &&
+                  in->config.rate<= config.rate_max)) {
+            LOGV("# Requested %dHz, using supported value %dHz\n",in->config.rate, config.rate_min);
+            in->config.rate = config.rate_min;
     	}
-*/
         if (!(in->config.channels >= config.channels_min &&
                   in->config.channels <= config.channels_max)) {
-            LOGV("# Requested %dCh using supported value %dCh\n",in->config.channels, config.channels_max);
-            in->config.channels = config.channels_max;
+            LOGV("# Requested %dCh, using supported value %dCh\n",in->config.channels, config.channels_min);
+            in->config.channels = config.channels_min;
     	}
     	pcm_close(pcm);
         /* END of HW Info */
-        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
+        LOGV("### USB audio input selected! Channels: %dCh Req Rate: %dHz HW Rate: %dHz", in->config.channels, in->requested_rate, in->config.rate);
     }
 exit:
 	
