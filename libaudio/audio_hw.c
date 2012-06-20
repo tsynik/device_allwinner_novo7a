@@ -44,7 +44,7 @@
 #define F_LOG LOGV("########## %s ##########", __FUNCTION__);
 
 /* Mixer control names */
-/*
+
 #define MIXER_DL2_LEFT_EQUALIZER            "DL2 Left Equalizer"
 #define MIXER_DL2_RIGHT_EQUALIZER           "DL2 Right Equalizer"
 #define MIXER_DL1_MEDIA_PLAYBACK_VOLUME     "DL1 Media Playback Volume"
@@ -87,7 +87,7 @@
 #define MIXER_MUX_VX1                       "MUX_VX1"
 #define MIXER_MUX_UL10                      "MUX_UL10"
 #define MIXER_MUX_UL11                      "MUX_UL11"
-*/
+
 
 /* Sun4i Mixer Controls
 ctl	type	num	name                                     value range
@@ -618,7 +618,7 @@ static int is_device_usb_dac(void)
     char path[18]="/dev/snd/";
     strcat(path, property);
     int ret = stat(path, &info);
-    LOGV("# property: %s, value: %s, ret: %d", OUT_CARD_CID_PROPERTY, property, ret);
+    LOGV("# is_device_usb_dac, dev: %s, ret: %d", property, ret);
     return(ret == -1 ? 0 : 1);
 }
 
@@ -631,7 +631,7 @@ static int is_device_usb_cap(void)
     char path[18]="/dev/snd/";
     strcat(path, property);
     int ret = stat(path, &info);
-    LOGV("# property: %s, value: %s, ret: %d", CAP_CARD_CID_PROPERTY, property, ret);
+    LOGV("# is_device_usb_cap, dev: %s, ret: %d", property, ret);
     return(ret == -1 ? 0 : 1);
 }
 
