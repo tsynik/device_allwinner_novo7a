@@ -44,23 +44,23 @@
 #define F_LOG LOGV("########## %s ##########", __FUNCTION__);
 
 /* Sun4i Mixer Controls. TODO: implement Mic mute and Master Volume control
-ctl	type	num	name                                     value range
-0	INT		1	Master Playback Volume                   (0->63) 59
-1	BOOL	1	Playback Switch                          (0/1) off
-2	INT		1	Capture Volume                           (0->7) 3
-3	INT		1	Fm Volume                                (0->7) 3
-4	BOOL	1	Line Volume                              (0/1) on
-5	INT		1	MicL Volume                              (0->3) 2
-6	INT		1	MicR Volume                              (0->3) 2
-7	BOOL	1	FmL Switch                               (0/1) off
-8	BOOL	1	FmR Switch                               (0/1) off
-9	BOOL	1	LineL Switch                             (0/1) off
-10	BOOL	1	LineR Switch                             (0/1) off
-11	BOOL	1	Ldac Left Mixer                          (0/1) off
-12	BOOL	1	Rdac Right Mixer                         (0/1) off
-13	BOOL	1	Ldac Right Mixer                         (0/1) off
-14	INT		1	Mic Input Mux                            (0->15) 0
-15	INT		1	ADC Input Mux                            (0->15) 2
+ctl type    num name                                     value range
+0   INT     1   Master Playback Volume                   (0->63) 59
+1   BOOL    1   Playback Switch                          (0/1) off
+2   INT     1   Capture Volume                           (0->7) 3
+3   INT     1   Fm Volume                                (0->7) 3
+4   BOOL    1   Line Volume                              (0/1) on
+5   INT     1   MicL Volume                              (0->3) 2
+6   INT     1   MicR Volume                              (0->3) 2
+7   BOOL    1   FmL Switch                               (0/1) off
+8   BOOL    1   FmR Switch                               (0/1) off
+9   BOOL    1   LineL Switch                             (0/1) off
+10  BOOL    1   LineR Switch                             (0/1) off
+11  BOOL    1   Ldac Left Mixer                          (0/1) off
+12  BOOL    1   Rdac Right Mixer                         (0/1) off
+13  BOOL    1   Ldac Right Mixer                         (0/1) off
+14  INT     1   Mic Input Mux                            (0->15) 0
+15  INT     1   ADC Input Mux                            (0->15) 2
 */
 
 /* Mixer control names for A10 */
@@ -369,19 +369,19 @@ static int is_device_usb_dac(void)
     property_get(OUT_CARD_CID_PROPERTY, property, OUT_CARD_CID);
     struct stat info;
     if (strcmp(&property[7], "p") == 0) {
-		char path[18]="/dev/snd/";
-		strcat(path, property);
-		int ret = stat(path, &info);
-		if (ret == 0) {
-			LOGV("# property: %s, dev: %s, present", OUT_CARD_CID_PROPERTY, property);
-		} else {
-			LOGV("# property: %s, dev: %s, device not exist! use default output", OUT_CARD_CID_PROPERTY, property);
-		}
-		return(ret == -1 ? 0 : 1);
-	} else {
-		LOGV("# property: %s, dev: %s, not a playback device! use default output", OUT_CARD_CID_PROPERTY, property);
-	}
-	return(0);
+        char path[18]="/dev/snd/";
+        strcat(path, property);
+        int ret = stat(path, &info);
+        if (ret == 0) {
+            LOGV("# property: %s, dev: %s, present", OUT_CARD_CID_PROPERTY, property);
+        } else {
+            LOGV("# property: %s, dev: %s, device not exist! use default output", OUT_CARD_CID_PROPERTY, property);
+        }
+        return(ret == -1 ? 0 : 1);
+    } else {
+        LOGV("# property: %s, dev: %s, not a playback device! use default output", OUT_CARD_CID_PROPERTY, property);
+    }
+    return(0);
 }
 
 /* Returns true for external ADC (if present), false otherwise */
@@ -396,16 +396,16 @@ static int is_device_usb_cap(void)
     	LOGV("# internal mic input selected");
     } else if (strcmp(&property[7], "c") == 0) {
     	char path[18]="/dev/snd/";
-    	strcat(path, property);
-    	int ret = stat(path, &info);
-    	if (ret == 0) {
-    		LOGV("# property: %s, dev: %s, present", CAP_CARD_CID_PROPERTY, property);
-    	} else {
-    		LOGV("# property: %s, dev: %s, device not exists! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
-    	}
-    	return(ret == -1 ? 0 : 1);
+        strcat(path, property);
+        int ret = stat(path, &info);
+        if (ret == 0) {
+            LOGV("# property: %s, dev: %s, present", CAP_CARD_CID_PROPERTY, property);
+        } else {
+            LOGV("# property: %s, dev: %s, device not exists! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
+        }
+        return(ret == -1 ? 0 : 1);
     } else {
-    	LOGV("# property: %s, dev: %s, not a capture device! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
+        LOGV("# property: %s, dev: %s, not a capture device! use default source (internal mic)", CAP_CARD_CID_PROPERTY, property);
     }
     return(0);
 }
